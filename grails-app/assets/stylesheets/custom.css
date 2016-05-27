@@ -1,0 +1,34 @@
+.uppercase {
+    text-transform: uppercase;
+}
+
+.arrow_box {
+    position: relative;
+    background: #5a575c;
+    border: 4px solid #c2e1f5;
+}
+
+.arrow_box:after, .arrow_box:before {
+    right: 100%;
+    top: 50%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+}
+
+.arrow_box:after {
+    border-color: rgba(90, 87, 92, 0);
+    border-right-color: #5a575c;
+    border-width: 60px;
+    margin-top: -60px;
+}
+
+.arrow_box:before {
+    border-color: rgba(194, 225, 245, 0);
+    border-right-color: #c2e1f5;
+    border-width: 66px;
+    margin-top: -66px;
+}

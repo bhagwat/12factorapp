@@ -1,0 +1,68 @@
+//http://mrhaki.blogspot.in/2015/10/grails-goodness-run-grails-application.html
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.bmuschko:gradle-docker-plugin:2.6.8'
+    }
+}
+
+apply plugin: com.bmuschko.gradle.docker.DockerRemoteApiPlugin
+
+ext {
+    userNameSpace = System.env.DOCKER_USER_NAMESPACE ? System.env.DOCKER_USER_NAMESPACE + '/' : ''
+    dockerTag = "${userNameSpace}${project.name}:${project.version}".toString()
+    dockerContainerName = 'cloud'
+    dockerBuildDir = mkdir("${buildDir}/docker")
+    dockerBuildGroup = 'Docker'
+    dockerWar = file("${dockerBuildDir}/${war.archiveName}")
+}
+
+docker {
+    url = System.env.DOCKER_HOST ?
+            System.env.DOCKER_HOST.replace("tcp", "https") :
+            'unix:///var/run/docker.sock'
+}
+
+import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+import com.bmuschko.gradle.docker.tasks.image.DockerRemoveImage
+import com.bmuschko.gradle.docker.tasks.image.Dockerfile
+
+task prepareDocker(type: Copy, dependsOn: bootRepackage) {
+    description = 'Copy files from src/main/docker to Docker build dir.'
+
+    group = dockerBuildGroup
+    into dockerBuildDir
+    from 'src/main/docker'
+    from "${project.buildDir}/libs/${dockerWar.name}"
+}
+
+task createDockerfile(type: Dockerfile, dependsOn: prepareDocker) {
+    description = 'Create Dockerfile to build image.'
+    group = dockerBuildGroup
+
+    destFile = file("${dockerBuildDir}/Dockerfile")
+
+    from 'java:8'
+    exposePort 8080
+    environmentVariable 'GRAILS_ENV', 'production'
+    workingDir '/app'
+    copyFile dockerWar.name, 'application.war'
+    copyFile 'docker-entrypoint.sh', 'docker-entrypoint.sh'
+    runCommand 'chmod +x docker-entrypoint.sh'
+    entryPoint './docker-entrypoint.sh'
+}
+
+task buildImage(type: DockerBuildImage, dependsOn: createDockerfile) {
+    description = 'Create Docker image with Grails application.'
+    group = dockerBuildGroup
+    inputDir = file(dockerBuildDir)
+    tag = dockerTag
+}
+
+task removeImage(type: DockerRemoveImage) {
+    description = 'Remove Docker image with Grails application.'
+    group = dockerBuildGroup
+    targetImageId { dockerTag }
+}

@@ -1,0 +1,1 @@
+web: cd build/libs && java $JAVA_OPTS  -jar webapp-runner-8.0.30.2.jar --enable-compression --port $PORT *.war
