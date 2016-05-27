@@ -29,7 +29,7 @@ import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
 import com.bmuschko.gradle.docker.tasks.image.DockerRemoveImage
 import com.bmuschko.gradle.docker.tasks.image.Dockerfile
 
-task prepareDocker(type: Copy, dependsOn: bootRepackage) {
+task prepareDocker(type: Copy, dependsOn: assemble) {
     description = 'Copy files from src/main/docker to Docker build dir.'
 
     group = dockerBuildGroup
