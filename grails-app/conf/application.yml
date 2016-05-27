@@ -87,3 +87,8 @@ grails:
 endpoints:
     jmx:
         unique-names: true
+---
+grails:
+    plugin:
+        console:
+            enabled: true
