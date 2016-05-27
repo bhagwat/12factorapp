@@ -19,5 +19,5 @@ build/
 coverage
 cobertura.ser
 node_modules
-*.mv.db
+*.db
 application-development.yml
