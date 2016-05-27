@@ -41,9 +41,19 @@
 <asset:javascript src="application.js"/>
 
 <g:layoutBody/>
+<div class="container-fluid" style="position: absolute; bottom: 20px; width: 100%">
+    <hr/>
+    <div class="row">
+        <div class="col-md-6">
+            © 2016 TO THE NEW Digital
+        </div>
 
-<div class="footer" role="contentinfo">
-    © 2016 TO THE NEW Digital
+        <div class="col-md-6 pull-right">
+            Github: <a href="https://github.com/bhagwat/12factorapp#fork-destination-box">
+            https://github.com/bhagwat/12factorapp
+        </a>
+        </div>
+    </div>
 </div>
 
 <div id="spinner" class="spinner" style="display:none;">
