@@ -9,7 +9,7 @@ class BootStrap {
         if (Message.count < 1) {
             log.info "Bootstrapping Quotes"
             grailsApplication.mainContext.getResource("/taglines.txt")
-                    .file
+                    .inputStream
                     .readLines()
                     .eachWithIndex { String line, Integer index ->
                 if (line.trim().length()) {
