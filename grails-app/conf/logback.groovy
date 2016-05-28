@@ -1,6 +1,3 @@
-import ch.qos.logback.classic.encoder.PatternLayoutEncoder
-import ch.qos.logback.core.ConsoleAppender
-import ch.qos.logback.core.FileAppender
 import grails.util.BuildSettings
 import grails.util.Environment
 
@@ -11,6 +8,10 @@ appender('STDOUT', ConsoleAppender) {
 }
 
 root(INFO, ['STDOUT'])
+
+logger 'grails.app.controllers', INFO, ['STDOUT'], false
+logger 'grails.app.services', INFO, ['STDOUT'], false
+logger 'com.ttnd.cloud', INFO, ['STDOUT'], false
 
 def targetDir = BuildSettings.TARGET_DIR
 if (Environment.isDevelopmentMode() && targetDir) {
@@ -23,6 +24,3 @@ if (Environment.isDevelopmentMode() && targetDir) {
     }
     logger("StackTrace", ERROR, ['FULL_STACKTRACE'], false)
 }
-
-logger 'com.ttnd.cloud', INFO, ['STDOUT'], false
-

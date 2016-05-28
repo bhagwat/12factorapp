@@ -1,9 +1,9 @@
 ---
 hibernate:
     cache:
-        queries: false
+        queries: true
         use_second_level_cache: true
-        use_query_cache: false
+        use_query_cache: true
         region.factory_class: 'org.hibernate.cache.ehcache.EhCacheRegionFactory'
 dataSource:
         dbCreate: update
