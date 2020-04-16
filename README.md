@@ -21,6 +21,3 @@ $ cd 12factorapp
 $ ./gradlew bootRun
 ```
 
-## Screen shot
-
-![Screen shot](12-factor-app.png)
